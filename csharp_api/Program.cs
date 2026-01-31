@@ -59,6 +59,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<TaskManagerContext>();
     db.Database.Migrate();
+    await DbInitializer.SeedAsync(db);
 }
 
 // ===== Swagger (Development Only) =====
