@@ -12,6 +12,7 @@ namespace Domaine.Classes
         public DateTime DueDate { get; set; }
         public Project TaskProject { get; set; }
         public User? AssignedUser { get; set; }
+        public Guid? AssignedUserId { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Task(string title, string description, Project taskProject, DateTime dueDate, int priority, User? user = null, Status status = Status.Backlog)

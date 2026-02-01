@@ -46,10 +46,25 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> Delete(Guid id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Projects)
+                .Include(u => u.AssignedTasks)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user is null)
                 return false;
+
+            // Handle projects owned by the user
+            foreach (var project in user.Projects)
+            {
+                // Delete tasks of these projects
+                var tasks = await _context.Tasks.Where(t => t.TaskProject.Id == project.Id).ToListAsync();
+                _context.Tasks.RemoveRange(tasks);
+            }
+            _context.Projects.RemoveRange(user.Projects);
+
+            // Assigned tasks will have their AssignedUserId set to null by EF because of DeleteBehavior.SetNull
+            // as long as we have loaded them and they are tracked.
 
             _context.Users.Remove(user);
 

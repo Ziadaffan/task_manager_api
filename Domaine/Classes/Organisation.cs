@@ -18,6 +18,11 @@ namespace Domaine.Classes
         public Organisation()
         {
             CreatedAt = DateTime.UtcNow;
+            Projects = new List<Project>();
+            Users = new List<User>();
         }
+
+        public ICollection<Project> Projects { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

@@ -65,27 +65,15 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> Delete(Guid id)
         {
-            var organisation = await _context.Organisations.FindAsync(id);
+            var organisation = await _context.Organisations
+                .Include(o => o.Users)
+                .Include(o => o.Projects)
+                .ThenInclude(p => p.Tasks)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
             if (organisation is null)
                 return false;
 
-            var users = await _context.Users
-                .Where(u => u.Organisation.Id == id)
-                .ToListAsync();
-
-            var projects = await _context.Projects
-                .Where(p => p.OrganisationId == id)
-                .ToListAsync();
-
-            var projectIds = projects.Select(p => p.Id).ToList();
-
-            var tasks = await _context.Tasks
-                .Where(t => projectIds.Contains(t.TaskProject.Id))
-                .ToListAsync();
-
-            _context.Tasks.RemoveRange(tasks);
-            _context.Projects.RemoveRange(projects);
-            _context.Users.RemoveRange(users);
             _context.Organisations.Remove(organisation);
 
             await _context.SaveChangesAsync();

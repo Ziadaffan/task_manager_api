@@ -19,6 +19,8 @@ namespace Domaine.Classes
         public Role UserRole { get; set; }
         public DateTime CreatedAt { get; set; }
         public Organisation? Organisation { get; set; }
+        public ICollection<Project> Projects { get; set; } = new List<Project>();
+        public ICollection<Task> AssignedTasks { get; set; } = new List<Task>();
 
         public User()
         {

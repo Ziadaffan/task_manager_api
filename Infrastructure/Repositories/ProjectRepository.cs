@@ -52,11 +52,14 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> Delete(Guid id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Projects
+                .Include(p => p.Tasks)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (project is null)
                 return false;
 
+            _context.Tasks.RemoveRange(project.Tasks);
             _context.Projects.Remove(project);
 
             await _context.SaveChangesAsync();
