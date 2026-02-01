@@ -38,9 +38,9 @@ builder.Services.AddProjectServices(builder.Configuration);
 // ===== CORS Setup =====
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularDev", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(["http://localhost:4200"]) // Angular dev server
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -75,7 +75,7 @@ if (app.Environment.IsDevelopment())
 
 // ===== Middleware =====
 app.UseHttpsRedirection();
-app.UseCors("AllowAngularDev"); // <-- CORS must be before Authorization
+app.UseCors("AllowAll"); // <-- CORS must be before Authorization
 app.UseAuthentication();        // <-- JWT authentication
 app.UseAuthorization();
 
