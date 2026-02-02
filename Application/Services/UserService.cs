@@ -69,6 +69,10 @@ namespace Application.Services
             if (user == null)
                 throw new InvalidOperationException("Invalid username or password.");
 
+
+            if(user.PasswordHash != HashPassword(password))
+                throw new InvalidOperationException("Invalid username or password.");
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
 

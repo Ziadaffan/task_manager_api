@@ -6,16 +6,16 @@ namespace Domaine.Classes
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; } = null;
         public Status TaskStatus { get; set; }
         public int Priority { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateOnly DueDate { get; set; }
         public Project TaskProject { get; set; }
         public User? AssignedUser { get; set; }
         public Guid? AssignedUserId { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public Task(string title, string description, Project taskProject, DateTime dueDate, int priority, User? user = null, Status status = Status.Backlog)
+        public Task(string title, string? description, Project taskProject, DateOnly dueDate, int priority, User? user = null, Status status = Status.Backlog)
         {
             Title = title;
             Description = description;

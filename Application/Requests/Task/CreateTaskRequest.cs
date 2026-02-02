@@ -7,8 +7,9 @@ namespace Application.Requests.Task
 {
     public class CreateTaskRequest
     {
+        
         public  string Title { get; set; }
-        public  string Description { get; set; }
+        public  string? Description { get; set; }
         public Guid ProjectId { get; set; }
         public Status TaskStatus { get; set; }
         public int Priority { get; set; }

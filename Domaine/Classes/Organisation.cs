@@ -4,10 +4,10 @@ namespace Domaine.Classes
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; } = null;
         public DateTime CreatedAt { get; set; }
 
-        public Organisation(string name, string description)
+        public Organisation(string name, string? description)
         {
             Id = Guid.NewGuid();
             Name = name;

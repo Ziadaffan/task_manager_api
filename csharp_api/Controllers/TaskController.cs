@@ -44,7 +44,7 @@ namespace csharp_api.Controllers
 
 
 
-            var created = await _taskService.Add(new Task(req.Title, req.Description, existingProject, req.DueDate, req.Priority, existingUser, req.TaskStatus));
+            var created = await _taskService.Add(new Task(req.Title, req.Description, existingProject, DateOnly.FromDateTime(req.DueDate), req.Priority, existingUser, req.TaskStatus));
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
@@ -74,7 +74,7 @@ namespace csharp_api.Controllers
             existingTask.Description = req.Description;
             existingTask.TaskStatus = req.TaskStatus;
             existingTask.Priority = req.Priority;
-            existingTask.DueDate = req.DueDate;
+            existingTask.DueDate = DateOnly.FromDateTime(req.DueDate);
             existingTask.AssignedUser = existingUser;
 
 
